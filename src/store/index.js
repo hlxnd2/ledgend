@@ -11,18 +11,18 @@ const state = () => ({
     appName: "Ledgend",
     pages: [
       {
-        id: 1,
-        name: "Import",
+        id: 0,
+        name: "Dashboard",
         icon: "mdi-home",
-        link: "page1",
-        destination: ImportView
+        link: "page0",
+        destination: PreviewView
       },
       {
-        id: 2,
-        name: "Preview",
-        icon: "mdi-cog",
-        link: "page2",
-        destination: PreviewView
+        id: 1,
+        name: "Import",
+        icon: "mdi-file-import-outline",
+        link: "page1",
+        destination: ImportView
       }
     ]
   }
