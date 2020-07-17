@@ -8,7 +8,7 @@
         <v-col cols="4">
           <v-text-field label="Ignore header lines" v-model="profile.ignoreHeadeLines"></v-text-field>
         </v-col>
-        <v-col cols="4" sm="6">
+        <v-col cols="4">
           <v-select :items="encodings" label="Encoding"></v-select>
         </v-col>
       </v-row>
