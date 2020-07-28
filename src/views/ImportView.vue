@@ -24,7 +24,23 @@
           <v-card-title class="lighten-2 indigo white--text">
             <span class="title font-weight-light">Import CSV</span>
             <v-spacer/>
-            <v-icon color="white" right>mdi-cog</v-icon>
+
+            <v-dialog v-model="dialog" max-width="80%">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon color="white" right v-bind="attrs" v-on="on">mdi-cog</v-icon>
+              </template>
+              <v-card>
+                <v-card-title class="headline">Import profile</v-card-title>
+                <v-card-text>
+                  <profile-editor/>
+                </v-card-text>
+                <!-- <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+                  <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+                </v-card-actions>-->
+              </v-card>
+            </v-dialog>
           </v-card-title>
           <v-tabs v-model="tab">
             <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
@@ -32,9 +48,6 @@
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="item in items" :key="item.tab">
               <component v-bind:is="item.content"></component>
-              <!-- <v-card flat>
-            <v-card-text>{{ item.content }}</v-card-text>
-              </v-card>-->
             </v-tab-item>
           </v-tabs-items>
         </v-card>
@@ -48,6 +61,7 @@
 <script>
 import ProfileEditor from "../components/ProfileEditor.vue";
 import CSVContent from "../components/CSVContent.vue";
+import LedgerComponent from "../components/LedgerComponent.vue";
 
 var CoPo = {
   data: function() {
@@ -58,8 +72,6 @@ var CoPo = {
   template:
     '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
 };
-
-let LedgerComponent = { template: "<h1>ledger</h1>" };
 
 export default {
   name: "ImportView",
@@ -72,6 +84,7 @@ export default {
   data: function() {
     return {
       show: "csv",
+      dialog: false,
       tab: null,
       showProfile: true,
       items: [

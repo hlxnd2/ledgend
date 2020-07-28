@@ -2,14 +2,51 @@
   <v-container height="100%">
     <v-row height="100%">
       <v-col cols="12">
-        <pre>{{csvText}}</pre>
+        <v-textarea
+          @input="sendCSV"
+          :value="this.csvData"
+          auto-grow
+          solo
+          height="100%"
+          placeholder="Insert CSV Text here"
+        ></v-textarea>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import goTo from "vuetify/es5/services/goto";
+
 export default {
+  computed: {
+    rowCount: function() {
+      return this.csvText.split(",").length - 1;
+    },
+    ...mapState({
+      csvData: state => {
+        let data = state.imports.filter(x => x.name === "for1");
+        if (data.length > 0) return data[0].raw;
+        else return "";
+      }
+    })
+  },
+  methods: {
+    sendCSV: function(e) {
+      this.$store.commit("updateCSV", e);
+      goTo(0, {});
+      /*
+Date opération;Date valeur;libellé;Débit;Crédit;
+18/11/2019;18/11/2019;QWERTZ;-2;
+11/11/2019;11/11/2019;KW;-368;
+08/11/2019;08/11/2019;YYY;-255,1;
+08/11/2019;08/11/2019;YYY;-255,1;
+07/11/2019;07/11/2019;XXX;3350;
+*/
+    }
+  },
+  mounted() {},
   data: function() {
     return {
       csvText: `Date;Account Nr;Receiver;Amount
@@ -114,11 +151,6 @@ export default {
 09/02/2020;08830384799;"Cubilia Curae; Donec Limited";19.44
 02/05/2021;94353646799;Suspendisse Incorporated;23.12`
     };
-  },
-  computed: {
-    rowCount: function() {
-      return this.csvText.split(",").length - 1;
-    }
   },
   style:
     ".code { font-family:'Roboto Mono','Courier New',Courier,'Nimbus Mono L',Monospace;}"
