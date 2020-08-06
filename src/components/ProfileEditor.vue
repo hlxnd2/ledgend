@@ -47,17 +47,16 @@ export default {
   computed: {
     ...mapState({
       profile: state => {
-        console.log(state.config.currentProfile);
         return state.config.currentProfile;
       }
     })
   },
   methods: {
     updateProfileIgnoreHeaderLines: function(e) {
-      this.$store.commit("updateProfile", { type: "ihl", value: e });
+      this.$store.dispatch("updateProfile", { type: "ihl", value: e });
     },
     updateProfileSeparator: function(e) {
-      this.$store.commit("updateProfile", { type: "sep", value: e });
+      this.$store.dispatch("updateProfile", { type: "sep", value: e });
     }
   }
 };

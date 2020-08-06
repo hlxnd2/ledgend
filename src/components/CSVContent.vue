@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     sendCSV: function(e) {
-      this.$store.commit("updateCSV", e);
+      this.$store.dispatch("updateCSV", e);
       goTo(0, {});
       /*
 Date opération;Date valeur;libellé;Débit;Crédit;

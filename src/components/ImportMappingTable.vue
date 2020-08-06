@@ -1,23 +1,20 @@
 <template>
-    <v-data-table 
-      :headers="headers" 
-      :items="mapping" 
-      disable-pagination
-      hide-default-footer
-      dense>
-      <template v-slot:item.mapping="props">
-        <v-select
-          v-model="props.item.mapping"
-          :items="['','Description','Debit','Credit']"
-          dense
-          solo
-          flat
-          full-height
-          hide-details
-        ></v-select>
-      </template>
+  <v-data-table :headers="headers" :items="mappings" disable-pagination hide-default-footer dense>
+    <template v-slot:item.mapping="props">
+      <v-select
+        v-model="props.item.mapping"
+        :items="['','Date','Description','Debit','Credit']"
+        dense
+        solo
+        flat
+        lazy
+        full-height
+        hide-details
+        @change="updateMapping(props.item)"
+      ></v-select>
+    </template>
 
-      <!-- <template v-slot:item.name="props">
+    <!-- <template v-slot:item.name="props">
         <v-edit-dialog
           :return-value.sync="props.item.name"
           @save="save"
@@ -35,8 +32,8 @@
             ></v-text-field>
           </template>
         </v-edit-dialog>
-      </template>-->
-      <!-- <template v-slot:item.iron="props">
+    </template>-->
+    <!-- <template v-slot:item.iron="props">
         <v-edit-dialog
           :return-value.sync="props.item.iron"
           large
@@ -61,12 +58,12 @@
             ></v-text-field>
           </template>
         </v-edit-dialog>
-      </template>-->
-    </v-data-table>
+    </template>-->
+  </v-data-table>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -82,27 +79,21 @@ export default {
         },
         { text: "Map to", value: "mapping" },
         { text: "Modify", value: "mod" }
-      ],
-    }
+      ]
+    };
   },
   computed: {
     ...mapState({
-      mapping: function(state) {
-        let data=[];
-        console.log(state.imports[0].data);
-        for (var key in state.imports[0].data[0]) {
-          data.push({
-            name: key, 
-            mapping: '',
-            modify: ''
-          })
-        }
-  
-        return data;
+      mappings: function(state) {
+        return state.config.currentProfile.mappings;
       }
     })
   },
   methods: {
+    updateMapping(item) {
+      this.$store.dispatch("updateMapping", item);
+      //this.$store.dispatch("updateLedger");
+    }
   }
 };
 </script>

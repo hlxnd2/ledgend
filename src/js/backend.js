@@ -54,7 +54,7 @@ function parseCsvString(csvString, callback, profile) {
     .pipe(parse(profile.csvConfig))
     .on("data", data => results.push(data))
     .on("end", () => {
-      console.log(results);
+      //console.log(results);
       callback(results);
     });
 }
